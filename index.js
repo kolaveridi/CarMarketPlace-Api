@@ -3,7 +3,7 @@ const logger=require('morgan');
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 //const path=require('path');
-
+mongoose.Promise=global.Promise;
 
 const app=express();
 app.use(logger('combined'));
