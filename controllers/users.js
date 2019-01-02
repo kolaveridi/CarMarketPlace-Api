@@ -2,7 +2,11 @@
 
 const User=require('../models/user');
 const Car=require('../models/car');
-
+const Joi =require('joi');
+const idSchema=Joi.object().keys({
+    userId:Joi.string().regex(/^[a-f\d]{24}$/i)
+    .required()
+})
 module.exports ={
 
 
@@ -28,8 +32,9 @@ module.exports ={
 
     },
     getUser:async(req,res,next)=>{
+
         try{
-            const {userId}=req.params;
+            const {userId}=req.value.params;
             const user=await User.findById(userId);
             res.status(200).json(user);
         }
@@ -99,9 +104,6 @@ module.exports ={
         }
 
     }
-
-
-
 };
 
 /*
