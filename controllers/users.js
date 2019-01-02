@@ -1,19 +1,10 @@
 
 
 const User=require('../models/user');
+const Car=require('../models/car');
 
 module.exports ={
 
-
-    // index:(req,res,next)=>{
-    //     User.find({})
-    //     .then (users=>{
-    //        res.status(200).json(users);
-    //     })
-    //     .catch(err=>{
-    //         next(err);
-    //     });
-    // },
 
     index:async(req,res,next)=>{
         try{
@@ -35,7 +26,81 @@ module.exports ={
             next(err);
         }
 
+    },
+    getUser:async(req,res,next)=>{
+        try{
+            const {userId}=req.params;
+            const user=await User.findById(userId);
+            res.status(200).json(user);
+        }
+        catch(err){
+            next(err);
+        }
+    },
+    replaceUser:async(req,res,next)=>{
+        // req.body must have all the fields
+
+        try{
+            const {userId}=req.params;
+            const newUser=req.body;
+            const result = await  User.findOneAndUpdate(userId,newUser)
+            console.log(result);
+            res.status(200).json(result);
+        }
+        catch(err){
+            next(err);
+        }
+    },
+    updateUser:async(req,res,next)=>{
+        try{
+            const {userId}=req.params;
+            const newUser=req.body;
+            const result = await  User.findOneAndUpdate(userId,newUser)
+            console.log(result);
+            res.status(200).json(result);
+        }
+        catch(err){
+            next(err);
+        }
+    },
+    getUserCars:async(req,res,next)=>{
+        try{
+           const {userId}=req.params;
+           const user=await User.findById(userId).populate('cars');// to get things other than id
+           res.status(200).json(user);
+
+        }
+        catch(err){
+            next(err);
+        }
+    },
+    newUserCar:async(req,res,next)=>{
+        console.log('working');
+        try{
+            //Create a new Car
+            const newCar=new Car(req.body);
+            //Get the user
+            const {userId}=req.params;
+            const user=await User.findById(userId);
+            console.lo
+            //making the connection by assigning user as car's seller
+            newCar.seller=user;
+            //Save the car
+            const car=await newCar.save();
+            //Add car to the user selling car array
+            user.cars.push(newCar);
+            //Save the user
+            const userSavedWithCar=user.save();
+
+            res.status(201).json(newCar);
+        }
+        catch(err){
+            next(err);
+        }
+
     }
+
+
 
 };
 
