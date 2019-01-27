@@ -12,7 +12,7 @@ app.use(logger('combined'));
 
 //routes
 const users=require('./routes/users');
-
+const cars=require('./routes/cars');
 
 //Middlewares
 app.use(bodyParser.json());
@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 
 //Routes
 app.use('/users',users);
-
+app.use('/cars',cars);
 
 
 //Catch 404 error handler functions and forward them to error handler

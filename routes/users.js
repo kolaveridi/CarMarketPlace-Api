@@ -2,13 +2,13 @@ const express=require('express');
 const router=express.Router();
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
-const {validateParams,schemas}=require('../helpers/routehelpers.js');
+const {validateParams,schemas,validateBody}=require('../helpers/routehelpers.js');
 const UsersController=require('../controllers/users');
 
 
 router.route('/')
 .get(UsersController.index)
-.post(UsersController.newUser)
+.post(validateBody(schemas.userSchema),UsersController.newUser)
 
 
 router.route('/:userId')

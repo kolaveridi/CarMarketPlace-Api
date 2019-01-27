@@ -22,8 +22,9 @@ module.exports ={
     },
 
     newUser:async(req,res,next)=>{
+        console.log('req.value',req.value);
         try{
-            const newUser=new User(req.body);
+            const newUser=new User(req.value.body);
             const user= await newUser.save();
             res.status(201).json(user);
         }catch(err){
